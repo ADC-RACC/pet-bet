@@ -8,6 +8,8 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/Button.tsx'
+import { IfAuthenticated, IfNotAuthenticated } from '../Authenticated'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const links = [
   { name: 'Random', to: '/random' },
@@ -15,6 +17,16 @@ const links = [
 ]
 
 export default function Navigation() {
+  const { logout, loginWithRedirect, user } = useAuth0()
+
+  const handleSignOut = () => {
+    logout()
+  }
+
+  const handleSignIn = () => {
+    loginWithRedirect()
+  }
+
   return (
     <Popover as="nav" className="gradient-p-to-y relative">
       <div className="mx-auto max-w-7xl sm:px-2">
@@ -67,11 +79,18 @@ export default function Navigation() {
 
           <div className="hidden items-center text-primary md:flex md:flex-row">
             <span className="mr-5 text-sm lg:text-lg lg:leading-none">
-              Welcome
+              {user && <p>Welcome, {user?.name}</p>}
             </span>
-            <Button variant="none" onClick={() => {}}>
-              Log in
-            </Button>
+            <IfNotAuthenticated>
+              <Button variant="none" onClick={handleSignIn}>
+                Sign In
+              </Button>
+            </IfNotAuthenticated>
+            <IfAuthenticated>
+              <Button variant="none" onClick={handleSignOut}>
+                Sign Out
+              </Button>
+            </IfAuthenticated>
           </div>
         </div>
       </div>
