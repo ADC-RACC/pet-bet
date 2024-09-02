@@ -1,7 +1,46 @@
 //@vitest-environment jsdom
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { renderRoute } from '@/test/setup'
 import { within } from '@testing-library/react'
+import { useAuth0 } from '@auth0/auth0-react'
+import { vi } from 'vitest'
+
+const accessToken = 'fakeaccesstoken'
+
+beforeEach(() => {
+  vi.mocked(useAuth0).mockReturnValue({
+    isAuthenticated: true,
+    user: { sub: 'bear@example.com', nickname: 'bear' },
+    getAccessTokenSilently: vi.fn().mockReturnValue(accessToken),
+    loginWithRedirect: vi.fn(),
+    logout: vi.fn(),
+  } as any)
+})
+
+afterEach(() => {
+  vi.clearAllMocks()
+})
+
+describe('authentication', () => {
+  it('shows the login button', async () => {
+    vi.mocked(useAuth0).mockReturnValue({
+      isAuthenticated: false,
+      user: undefined,
+      getAccessTokenSilently: vi.fn().mockReturnValue(accessToken),
+      loginWithRedirect: vi.fn(),
+      logout: vi.fn(),
+    } as any)
+  })
+  it('shows the logout button', async () => {
+    vi.mocked(useAuth0).mockReturnValue({
+      isAuthenticated: true,
+      user: { sub: 'bear@example.com', nickname: 'bear' },
+      getAccessTokenSilently: vi.fn().mockReturnValue(accessToken),
+      loginWithRedirect: vi.fn(),
+      logout: vi.fn(),
+    } as any)
+  })
+})
 
 describe('App renders', () => {
   it('shows the navbar content', async () => {
