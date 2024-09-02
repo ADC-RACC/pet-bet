@@ -22,4 +22,27 @@ router.get('/random', async (req, res) => {
   }
 })
 
+router.patch(
+  '/:id/votes', // votes because
+  async (req, res) => {
+    try {
+      const { wins, losses } = req.body // Just editing wins and losses only
+      const id = Number(req.params.id)
+      const updatedPet = { wins, losses }
+      await db.updatePetById(updatedPet, id)
+      console.log()
+      res.sendStatus(204)
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message)
+      } else {
+        console.error('unknown error')
+      }
+      res.status(500).json({
+        error: `Something went wrong.`,
+      })
+    }
+  },
+)
+
 export default router

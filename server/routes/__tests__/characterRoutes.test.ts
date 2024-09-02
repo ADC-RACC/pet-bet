@@ -89,3 +89,17 @@ describe('/random?count=', () => {
     expect(console.error).toHaveBeenCalledWith('random failed')
   })
 })
+
+// Testing the Patch for Pet's wins and losses
+describe('update wins and losses', () => {
+  it('should update pets wins and losses', async () => {
+    const res = await request(server)
+      .patch('/api/v1/pets/1/votes')
+      .send({ wins: 100, losses: 100 })
+    expect(res.statusCode).toBe(204)
+  })
+  it('should be 404 when wrong route', async () => {
+    const res = await request(server).patch('/wrongurl')
+    expect(res.statusCode).toBe(404)
+  })
+})

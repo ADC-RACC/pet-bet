@@ -10,3 +10,8 @@ export interface PetData {
 export interface Pet extends PetData {
   id: number
 }
+
+export interface UpdatedData {
+  wins: number
+  losses: number
+}

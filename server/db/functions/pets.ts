@@ -1,6 +1,6 @@
 import db from '../connection'
 
-import { Pet } from '@models/pets'
+import { Pet, UpdatedData } from '@models/pets'
 
 export async function getRandomPets(count: number): Promise<Pet[]> {
   const tips = await db('pets')
@@ -8,4 +8,11 @@ export async function getRandomPets(count: number): Promise<Pet[]> {
     .limit(count)
     .select('id', 'name', 'bio', 'wins', 'losses', 'img_url as imgUrl')
   return tips
+}
+
+export async function updatePetById(updatedPet: UpdatedData, id: number) {
+  const result = await db('pets')
+    .where({ id })
+    .update({ wins: updatedPet.wins, losses: updatedPet.losses })
+  return result
 }
