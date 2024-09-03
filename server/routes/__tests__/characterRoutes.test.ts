@@ -137,10 +137,9 @@ describe('it should return leaderboard data', () => {
         ]),
         winsAndLossesRatio: expect.arrayContaining([
           expect.objectContaining({
+            ratio: expect.any(Number),
             id: expect.any(Number),
             name: expect.any(String),
-            wins: expect.any(Number),
-            losses: expect.any(Number),
           }),
         ]),
       }),
