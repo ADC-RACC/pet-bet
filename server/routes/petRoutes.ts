@@ -1,5 +1,4 @@
 import express from 'express'
-
 import * as db from '../db/functions/pets'
 
 const router = express.Router()
@@ -65,3 +64,20 @@ router.patch('/:id/votes', async (req, res) => {
 })
 
 export default router
+
+// GET /api/v1/pets/leaderboard
+router.get('/leaderboard', async (req, res) => {
+  try {
+    const leaderBoardData = await db.getLeaderBoardData()
+    res.json(leaderBoardData)
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message)
+    } else {
+      console.error('unknown error')
+    }
+    res.status(500).json({
+      error: `Something went wrong.`,
+    })
+  }
+})
