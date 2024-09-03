@@ -9,3 +9,9 @@ export async function getRandomPets(count: number): Promise<Pet[]> {
     .select('id', 'name', 'bio', 'wins', 'losses', 'img_url as imgUrl')
   return tips
 }
+
+export async function getPetsByOwnerId(ownerId: string): Promise<Pet[]> {
+  return db('pets')
+    .where({ owner_id: ownerId })
+    .select('id', 'name', 'bio', 'wins', 'losses', 'img_url as imgUrl')
+}
