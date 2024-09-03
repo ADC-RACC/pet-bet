@@ -14,5 +14,22 @@ export async function updatePetById(updatedPet: UpdatedData, id: number) {
   const result = await db('pets')
     .where({ id })
     .update({ wins: updatedPet.wins, losses: updatedPet.losses })
+  // console.log(result)
+  return result
+}
+
+export async function getPetbyId(id: number) {
+  const result = await db('pets')
+    .where({ id })
+    .select(
+      'id',
+      'name',
+      'owner_id as ownerId',
+      'bio',
+      'wins',
+      'losses',
+      'img_url as imgUrl',
+    )
+  console.log(result)
   return result
 }

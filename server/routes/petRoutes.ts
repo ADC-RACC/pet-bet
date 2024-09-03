@@ -22,6 +22,24 @@ router.get('/random', async (req, res) => {
   }
 })
 
+router.get('/:id/votes', async (req, res) => {
+  try {
+    const id = req.params.id
+    const pets = await db.getPetbyId(id)
+    res.json(pets)
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message)
+    } else {
+      console.error('unknown error')
+    }
+    res.status(500).json({
+      error: `Something went wrong.`,
+    })
+  }
+})
+
+//updating wins and losses
 router.patch(
   '/:id/votes', // votes because
   async (req, res) => {
@@ -34,7 +52,7 @@ router.patch(
       }
       const updatedPet = { wins, losses }
       await db.updatePetById(updatedPet, id)
-      console.log()
+      // console.log(updatedPet)
       res.sendStatus(204)
     } catch (error) {
       if (error instanceof Error) {
