@@ -99,7 +99,9 @@ describe('update wins and losses', () => {
     expect(res.statusCode).toBe(204)
   })
   it('should be 404 when wrong route', async () => {
-    const res = await request(server).patch('/wrongurl')
+    const res = await request(server).patch('/api/v1/pets/not-a-pet/votes')
     expect(res.statusCode).toBe(404)
   })
 })
+
+

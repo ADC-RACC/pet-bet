@@ -26,8 +26,12 @@ router.patch(
   '/:id/votes', // votes because
   async (req, res) => {
     try {
-      const { wins, losses } = req.body // Just editing wins and losses only
+      const { wins, losses } = req.body
       const id = Number(req.params.id)
+      if (isNaN(id)) {
+        res.sendStatus(404)
+        return
+      }
       const updatedPet = { wins, losses }
       await db.updatePetById(updatedPet, id)
       console.log()
