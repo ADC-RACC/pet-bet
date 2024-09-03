@@ -1,5 +1,5 @@
 export interface Leaderboard {
-  name: string
-  wins: string
-  losses: number
+  wins: [{ name: string; wins: number }]
+  losses: [{ name: string; losses: number }]
+  winsAndLossesRatio: [{ name: string; wins: number; losses: number }]
 }
