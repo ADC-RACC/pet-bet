@@ -89,3 +89,29 @@ describe('/random?count=', () => {
     expect(console.error).toHaveBeenCalledWith('random failed')
   })
 })
+
+// Testing the Patch for Pet's wins and losses
+describe('update wins and losses', () => {
+  it('should update pets wins and losses', async () => {
+    const patchRes = await request(server)
+      .patch('/api/v1/pets/2/votes')
+      .send({ wins: 100, losses: 100 })
+    expect(patchRes.statusCode).toBe(204)
+    const getRes = await request(server).get('/api/v1/pets/2/votes')
+    expect(getRes.body).toStrictEqual([
+      {
+        id: 2,
+        ownerId: 'google-oauth2|107804123972815340859',
+        name: 'Lady Barkalot',
+        bio: "A dog whose bark is louder than its bite, but it's all in good fun.",
+        wins: 100,
+        losses: 100,
+        imgUrl: '/images/LadyBarkalot.png',
+      },
+    ])
+  })
+  it('should be 404 when wrong route', async () => {
+    const res = await request(server).patch('/api/v1/pets/not-a-pet/votes')
+    expect(res.statusCode).toBe(404)
+  })
+})
