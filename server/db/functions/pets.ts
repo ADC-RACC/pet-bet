@@ -48,12 +48,16 @@ export async function getLeaderBoardData(): Promise<Leaderboard> {
     .orderBy('losses', 'desc')
     .limit(5)
     .select('id', 'name', 'losses')
-  const winsAndLossesRatio = await db('pets').select(
-    'id',
-    'name',
-    'wins',
-    'losses',
-  )
+  const winsAndLossesRatio = await db('pets')
+    .select(
+      db.raw(
+        'CASE WHEN losses = 0 THEN wins ELSE CAST(wins AS FLOAT) / losses END as ratio',
+      ),
+      'name',
+      'id',
+    )
+    .orderBy('ratio', 'desc')
+    .limit(5)
   const data = {
     wins: wins,
     losses: losses,
