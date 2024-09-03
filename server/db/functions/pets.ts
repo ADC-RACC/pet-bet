@@ -31,3 +31,15 @@ export async function getPetbyId(id: number) {
     )
   return result
 }
+
+export async function getLeaderBoardData() {
+  const wins = await db('pets').max('wins')
+  const losses = await db('pets').max('losses')
+  // const winsAndLossesRatio = await db('pets')
+  const data = {
+    wins: wins,
+    losses: losses,
+    // winsAndLossesRatio: winsAndLossesRatio,
+  }
+  return data
+}
