@@ -1,3 +1,4 @@
+import { Leaderboard } from '@models/leaderboard'
 import db from '../connection'
 
 import { Pet, UpdatedData } from '@models/pets'
@@ -32,14 +33,25 @@ export async function getPetbyId(id: number) {
   return result
 }
 
-export async function getLeaderBoardData() {
-  const wins = await db('pets').max('wins')
-  const losses = await db('pets').max('losses')
-  // const winsAndLossesRatio = await db('pets')
+export async function getLeaderBoardData(): Promise<Leaderboard> {
+  const wins = await db('pets')
+    .orderBy('wins', 'desc')
+    .limit(5)
+    .select('id', 'name', 'wins')
+  const losses = await db('pets')
+    .orderBy('losses', 'desc')
+    .limit(5)
+    .select('id', 'name', 'losses')
+  const winsAndLossesRatio = await db('pets').select(
+    'id',
+    'name',
+    'wins',
+    'losses',
+  )
   const data = {
     wins: wins,
     losses: losses,
-    // winsAndLossesRatio: winsAndLossesRatio,
+    winsAndLossesRatio: winsAndLossesRatio,
   }
   return data
 }
