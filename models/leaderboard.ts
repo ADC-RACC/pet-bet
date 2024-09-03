@@ -11,10 +11,12 @@ export interface LeaderboardLoss extends LeaderboardEntry {
   losses: number
 }
 
-export type Ratio = LeaderboardWin & LeaderboardLoss
+export interface LeaderboardRatio extends LeaderboardEntry {
+  ratio: number
+}
 
 export interface Leaderboard {
   wins: LeaderboardWin[]
   losses: LeaderboardLoss[]
-  winsAndLossesRatio: Ratio[]
+  winsAndLossesRatio: LeaderboardRatio[]
 }
