@@ -115,3 +115,39 @@ describe('update wins and losses', () => {
     expect(res.statusCode).toBe(404)
   })
 })
+
+describe('it should return leaderboard data', () => {
+  it('returns wins, losses, and wins with losses', async () => {
+    const getRes = await request(server).get('/api/v1/pets/leaderboard')
+    expect(getRes.body).toEqual(
+      expect.objectContaining({
+        wins: expect.arrayContaining([
+          expect.objectContaining({
+            id: expect.any(Number),
+            name: expect.any(String),
+            wins: expect.any(Number),
+          }),
+        ]),
+        losses: expect.arrayContaining([
+          expect.objectContaining({
+            id: expect.any(Number),
+            name: expect.any(String),
+            losses: expect.any(Number),
+          }),
+        ]),
+        winsAndLossesRatio: expect.arrayContaining([
+          expect.objectContaining({
+            id: expect.any(Number),
+            name: expect.any(String),
+            wins: expect.any(Number),
+            losses: expect.any(Number),
+          }),
+        ]),
+      }),
+    )
+  })
+  // it('should be 500 when wrong route', async () => {
+  //   const getRes = await request(server).get('/api/v1/pets/leaderboard')
+  //   expect(getRes.statusCode).toBe(500)
+  // })
+})
