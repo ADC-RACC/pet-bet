@@ -1,21 +1,14 @@
 //@vitest-environment jsdom
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, afterEach } from 'vitest'
 import { renderRoute } from '@/test/setup'
 import { within } from '@testing-library/react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { vi } from 'vitest'
 
-const accessToken = 'fakeaccesstoken'
+// Mock out auth0
+vi.mock('@auth0/auth0-react')
 
-beforeEach(() => {
-  vi.mocked(useAuth0).mockReturnValue({
-    isAuthenticated: true,
-    user: { sub: 'bear@example.com', nickname: 'bear' },
-    getAccessTokenSilently: vi.fn().mockReturnValue(accessToken),
-    loginWithRedirect: vi.fn(),
-    logout: vi.fn(),
-  } as any)
-})
+const accessToken = 'fakeaccesstoken'
 
 afterEach(() => {
   vi.clearAllMocks()
@@ -29,8 +22,18 @@ describe('authentication', () => {
       getAccessTokenSilently: vi.fn().mockReturnValue(accessToken),
       loginWithRedirect: vi.fn(),
       logout: vi.fn(),
+      // eslint-disable-next-line
     } as any)
+    const screen = renderRoute('/')
+
+    const loginButton = await screen.findByRole('button', { name: /Sign In/i })
+    expect(loginButton).toBeInTheDocument()
+
+    expect(
+      screen.queryByRole('button', { name: /Sign Out/i }),
+    ).not.toBeInTheDocument()
   })
+
   it('shows the logout button', async () => {
     vi.mocked(useAuth0).mockReturnValue({
       isAuthenticated: true,
@@ -38,7 +41,16 @@ describe('authentication', () => {
       getAccessTokenSilently: vi.fn().mockReturnValue(accessToken),
       loginWithRedirect: vi.fn(),
       logout: vi.fn(),
+      // eslint-disable-next-line
     } as any)
+    const screen = renderRoute('/')
+
+    const loginButton = await screen.findByRole('button', { name: /Sign Out/i })
+    expect(loginButton).toBeInTheDocument()
+
+    expect(
+      screen.queryByRole('button', { name: /Sign In/i }),
+    ).not.toBeInTheDocument()
   })
 })
 
