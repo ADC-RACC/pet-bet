@@ -23,9 +23,6 @@ describe('Getting Pet with their owner Id', () => {
       `/api/v1/owners/${ownerId}/pets?include=true`,
     )
 
-    console.log('Response status:', res.status)
-    console.log('Response body:', res.body)
-
     expect(res.status).toBe(StatusCodes.OK)
     expect(res.body).toStrictEqual([
       {
