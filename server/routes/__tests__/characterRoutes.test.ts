@@ -146,8 +146,19 @@ describe('it should return leaderboard data', () => {
       }),
     )
   })
-  // it('should be 500 when wrong route', async () => {
-  //   const getRes = await request(server).get('/api/v1/pets/leaderboard')
-  //   expect(getRes.statusCode).toBe(500)
-  // })
+  it('should be 404 when wrong route', async () => {
+    const getRes = await request(server).get('/api/v1/pets/not-leaderboard')
+    expect(getRes.statusCode).toBe(404)
+  })
+  it('should be 500 when wrong route', async () => {
+    vi.spyOn(db, 'getLeaderBoardData').mockImplementation(() => {
+      throw new Error('random failed')
+    })
+    vi.spyOn(console, 'error')
+    const count = 2
+    const res = await request(server)
+      .get('/api/v1/pets/leaderboard')
+      .query({ count })
+    expect(res.status).toBe(500)
+  })
 })
