@@ -24,7 +24,7 @@ router.get('/random', async (req, res) => {
 // Getting Pet by Id
 router.get('/:id/votes', async (req, res) => {
   try {
-    const id = req.params.id
+    const id = Number(req.params.id)
     const pets = await db.getPetbyId(id)
     res.json(pets)
   } catch (error) {
