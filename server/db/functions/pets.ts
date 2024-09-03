@@ -56,7 +56,9 @@ export async function getLeaderBoardData(): Promise<Leaderboard> {
       'name',
       'id',
     )
-    .orderBy('ratio', 'desc')
+    .orderByRaw(
+      'ABS(CASE WHEN losses = 0 THEN wins ELSE CAST(wins AS FLOAT) / losses END - 1)',
+    )
     .limit(5)
   const data = {
     wins: wins,
