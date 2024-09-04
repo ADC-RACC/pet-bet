@@ -12,38 +12,6 @@ beforeAll(() => {
 afterEach(() => {
   vi.clearAllMocks()
 })
-// the randomisation of pets
-// the voting system works/ mutation/ query
-
-//Check component
-// 1. nock out initial scope
-// 2. renderRoute
-// 3. wait for loading to go away
-// 4. Make sure our request has been made by expecting the intial scope to be done
-// 5. Check for header
-
-//Check mutation
-// 1. nock out initial scope
-// 2. renderRoute
-// 3. wait for loading to go away
-// 4. Make sure our request has been made by expecting the intial scope to be done
-// 5. Check for header
-// 6. Mock out the user clicking the vote
-
-//Nock List
-// nock get request from random route
-// const count = 2
-//     const scope = nock('http://localhost')
-//       .get(`/api/v1/pets/random`)
-//       .query({ count })
-//       .reply(200, [mockPet])
-
-// nock patch route 1
-// nock patch route 2
-
-// check scope is done
-// check mutliple scope is done
-
 const mockPets = [
   {
     id: 1,
@@ -65,18 +33,12 @@ const mockPets = [
 
 describe('home component', () => {
   it('loads the pets correctly', async () => {
-    //ARRANGE
-
     const count = 2
     const scope = nock('http://localhost')
       .get(`/api/v1/pets/random`)
       .query({ count })
       .reply(200, mockPets)
-
-    //ACT
     const screen = renderRoute(`/`)
-
-    // // ASSERT
     const pet1 = await screen.findByText(mockPets[0].name)
     const pet2 = await screen.findByText(mockPets[1].name)
     expect(pet1).toBeInTheDocument()
@@ -109,16 +71,11 @@ describe('home component', () => {
       .patch(`/api/v1/pets/${id1}/votes`, votes)
       .reply(200)
 
-    //ACT
     const { user, ...screen } = renderRoute(`/`)
-
-    // // ASSERT
     const pet1 = await screen.findByText(mockPets[0].name)
     const pet2 = await screen.findByText(mockPets[1].name)
     expect(pet1).toBeInTheDocument()
     expect(pet2).toBeInTheDocument()
-    //find the pet card and do a click event on the pet card
-    // findallbyrole button - find specific button / button[1] => user click
     const buttons = await screen.findAllByRole('button')
     await user.click(buttons[2])
     expect(scope.isDone()).toBe(true)
