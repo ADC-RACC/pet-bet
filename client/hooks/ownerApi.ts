@@ -7,7 +7,7 @@ export function useOwnerId(ownerId: string) {
     queryKey: ['pet', ownerId],
     queryFn: async () => {
       const res = await request.get(`/api/v1/owners/${ownerId}/pets`)
-      if (!res.body.pet) {
+      if (!res.body) {
         throw new Error('Pet not found')
       }
       return res.body as Pet[]

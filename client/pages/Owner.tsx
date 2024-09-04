@@ -2,9 +2,12 @@ import React from 'react'
 import { useOwnerId } from '@/hooks/ownerApi'
 import { PetData } from '@models/pets'
 import PageTitle from '@/components/PageTitle'
+import { useParams } from 'react-router-dom'
+import PetCard from '../components/PetCard'
 
-const PageOwner: React.FC = ({ ownerId }) => {
-  const { data, error, isLoading } = useOwnerId(ownerId)
+const OwnerPage: React.FC = () => {
+  const { ownerId } = useParams()
+  const { data, error, isLoading } = useOwnerId(ownerId as string)
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -19,17 +22,10 @@ const PageOwner: React.FC = ({ ownerId }) => {
   return (
     <>
       <PageTitle title="Manager" />
-      <h1>Pets for Owner {ownerId}</h1>
       <ul>
-        {data.pets.map((pet: PetData) => (
+        {data.map((pet: PetData) => (
           <li key={pet.ownerId}>
-            <img src={pet.imgUrl} alt={pet.name} />
-            <div>
-              <strong>{pet.name}</strong>
-              <p>{pet.bio}</p>
-              <p>{pet.losses}</p>
-              <p>{pet.wins}</p>
-            </div>
+            <PetCard pet={pet} />
           </li>
         ))}
       </ul>
@@ -37,4 +33,4 @@ const PageOwner: React.FC = ({ ownerId }) => {
   )
 }
 
-export default PageOwner
+export default OwnerPage
