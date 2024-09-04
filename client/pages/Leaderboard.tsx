@@ -4,6 +4,7 @@ import useLeaderboard from '@/hooks/use-leaderboard'
 
 function Leaderboard() {
   //TODO: add commas for large numbers e.g. 1,000,000
+  //TODO: switch case to use colors from tailwind config
   const { data: leaderboard, isError, isPending } = useLeaderboard()
 
   if (isPending) return <p>Loading...</p>
