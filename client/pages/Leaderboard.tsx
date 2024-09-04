@@ -6,6 +6,7 @@ function Leaderboard() {
   // TODO: add commas for large numbers e.g. 1,000,000
   // TODO: switch case to use colors from tailwind config
   // TODO: media queries
+  // TODO: overlap of borders
   const { data: leaderboard, isError, isPending } = useLeaderboard()
 
   if (isPending) return <p>Loading...</p>
