@@ -1,20 +1,25 @@
-// import PageTitle from '@/components/PageTitle'
-// import { getPetById } from '@/apis/pets'
 import { getRandomPet } from '@/apis/pets'
 import { useQuery } from '@tanstack/react-query'
-import { Button } from '@/components/Button'
-import { useState } from 'react'
-// import Card from '@/components/Card'
+import useUpdatePetVotes from '@/hooks/use-vote'
+import { Pet } from '@models/pets'
+import Card from '@/components/Card'
 
-function Home(count: number) {
-  const [clicked, setClicked] = useState(false)
-  const handleClick = () => {
-    setClicked(clicked)
+function Home() {
+  const mutation = useUpdatePetVotes()
+
+  const handleVote = async (id: number) => {
+    const winner = data?.find((pet: Pet) => id === pet.id) as Pet
+    const notwinner = data?.find((pet: Pet) => id != pet.id) as Pet
+    const winnervotes = { wins: winner?.wins + 1, losses: winner?.losses }
+    const loservotes = { wins: notwinner?.wins, losses: notwinner?.losses + 1 }
+
+    await mutation.mutate({ votes: winnervotes, id })
+    await mutation.mutate({ votes: loservotes, id: notwinner.id })
   }
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: ['vote'],
-    queryFn: () => getRandomPet(count),
+    queryFn: () => getRandomPet(2),
   })
 
   if (isPending) {
@@ -26,18 +31,13 @@ function Home(count: number) {
   }
 
   return (
-    // <PageTitle title="Home" />
     <>
-      <ul>
-        {data.slice(0, 2).map((vote) => (
-          <li key={vote.id}>
-            <img src={vote.imgUrl} alt={vote.name} />
-            {vote.name}
-            {vote.bio}
-            <Button onClick={handleClick}>Vote</Button>
-          </li>
+      <div className="relative h-screen flex items-center justify-center">
+        <h1>Vote!</h1>
+        {data.map((vote) => (
+          <Card key={vote.id} pet={vote} onClick={() => handleVote(vote.id)} />
         ))}
-      </ul>
+      </div>
     </>
   )
 }
