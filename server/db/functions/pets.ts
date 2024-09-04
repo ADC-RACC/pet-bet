@@ -1,3 +1,4 @@
+import { Leaderboard } from '@models/leaderboard'
 import db from '../connection'
 
 import { Pet, UpdatedData } from '@models/pets'
@@ -36,4 +37,33 @@ export async function getPetbyId(id: number) {
       'img_url as imgUrl',
     )
   return result
+}
+
+export async function getLeaderBoardData(): Promise<Leaderboard> {
+  const wins = await db('pets')
+    .orderBy('wins', 'desc')
+    .limit(5)
+    .select('id', 'name', 'wins')
+  const losses = await db('pets')
+    .orderBy('losses', 'desc')
+    .limit(5)
+    .select('id', 'name', 'losses')
+  const winsAndLossesRatio = await db('pets')
+    .select(
+      db.raw(
+        'CASE WHEN losses = 0 THEN wins ELSE CAST(wins AS FLOAT) / losses END as ratio',
+      ),
+      'name',
+      'id',
+    )
+    .orderByRaw(
+      'ABS(CASE WHEN losses = 0 THEN wins ELSE CAST(wins AS FLOAT) / losses END - 1)',
+    )
+    .limit(5)
+  const data = {
+    wins: wins,
+    losses: losses,
+    winsAndLossesRatio: winsAndLossesRatio,
+  }
+  return data
 }
