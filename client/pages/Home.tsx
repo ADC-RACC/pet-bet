@@ -31,14 +31,17 @@ function Home() {
   }
 
   return (
-    <>
-      <div className="relative h-screen flex items-center justify-center">
-        <h1>Vote!</h1>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="text-2xl font-bold mb-8">Vote!</h1>
+      <div className="flex items-center justify-center gap-8 mb-8">
         {data.map((vote) => (
           <Card key={vote.id} pet={vote} onClick={() => handleVote(vote.id)} />
         ))}
       </div>
-    </>
+      <p className="text-center text-lg text-2xl font-bold mb-8">
+        All bets final!
+      </p>
+    </div>
   )
 }
 

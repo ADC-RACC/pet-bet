@@ -120,7 +120,7 @@ describe('home component', () => {
     //find the pet card and do a click event on the pet card
     // findallbyrole button - find specific button / button[1] => user click
     const buttons = await screen.findAllByRole('button')
-    await user.click(buttons[1])
+    await user.click(buttons[2])
     expect(scope.isDone()).toBe(true)
     expect(scope1.isDone()).toBe(true)
     expect(scope2.isDone()).toBe(true)
