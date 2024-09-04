@@ -89,3 +89,75 @@ describe('/random?count=', () => {
     expect(console.error).toHaveBeenCalledWith('random failed')
   })
 })
+
+// Testing the Patch for Pet's wins and losses
+describe('update wins and losses', () => {
+  it('should update pets wins and losses', async () => {
+    const patchRes = await request(server)
+      .patch('/api/v1/pets/2/votes')
+      .send({ wins: 100, losses: 100 })
+    expect(patchRes.statusCode).toBe(204)
+    const getRes = await request(server).get('/api/v1/pets/2/votes')
+    expect(getRes.body).toStrictEqual([
+      {
+        id: 2,
+        ownerId: 'google-oauth2|107804123972815340859',
+        name: 'Lady Barkalot',
+        bio: "A dog whose bark is louder than its bite, but it's all in good fun.",
+        wins: 100,
+        losses: 100,
+        imgUrl: '/images/LadyBarkalot.png',
+      },
+    ])
+  })
+  it('should be 404 when wrong route', async () => {
+    const res = await request(server).patch('/api/v1/pets/not-a-pet/votes')
+    expect(res.statusCode).toBe(404)
+  })
+})
+
+describe('it should return leaderboard data', () => {
+  it('returns wins, losses, and wins with losses', async () => {
+    const getRes = await request(server).get('/api/v1/pets/leaderboard')
+    expect(getRes.body).toEqual(
+      expect.objectContaining({
+        wins: expect.arrayContaining([
+          expect.objectContaining({
+            id: expect.any(Number),
+            name: expect.any(String),
+            wins: expect.any(Number),
+          }),
+        ]),
+        losses: expect.arrayContaining([
+          expect.objectContaining({
+            id: expect.any(Number),
+            name: expect.any(String),
+            losses: expect.any(Number),
+          }),
+        ]),
+        winsAndLossesRatio: expect.arrayContaining([
+          expect.objectContaining({
+            ratio: expect.any(Number),
+            id: expect.any(Number),
+            name: expect.any(String),
+          }),
+        ]),
+      }),
+    )
+  })
+  it('should be 404 when wrong route', async () => {
+    const getRes = await request(server).get('/api/v1/pets/not-leaderboard')
+    expect(getRes.statusCode).toBe(404)
+  })
+  it('should be 500 when wrong route', async () => {
+    vi.spyOn(db, 'getLeaderBoardData').mockImplementation(() => {
+      throw new Error('random failed')
+    })
+    vi.spyOn(console, 'error')
+    const count = 2
+    const res = await request(server)
+      .get('/api/v1/pets/leaderboard')
+      .query({ count })
+    expect(res.status).toBe(500)
+  })
+})
