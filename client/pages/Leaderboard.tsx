@@ -1,6 +1,7 @@
 import PageTitle from '@/components/PageTitle'
 import PageSubTitle from '@/components/PageSubTitle'
 import useLeaderboard from '@/hooks/use-leaderboard'
+import LeaderboardColumn from '@/components/LeaderboardColumn'
 
 function Leaderboard() {
   // TODO: add commas for large numbers e.g. 1,000,000
@@ -21,18 +22,14 @@ function Leaderboard() {
             subtitleColored="Losses"
             color="text-red"
           />
-          <ul>
-            {leaderboard.losses.map((losses) => (
-              <li
-                key={losses.id}
-                className="border-solid border-border border-2 pt-3 pb-3 pl-3 rounded-sm"
-              >
-                <p className="font-bold text-xl">{losses.name}</p>
-                <p>{losses.losses} evil points</p>
-              </li>
-            ))}
-          </ul>
+          <LeaderboardColumn
+            column="losses"
+            dataType="losses"
+            description="losses"
+            data={leaderboard}
+          />
         </div>
+
         <div className="w-72">
           <PageSubTitle
             subtitle="Most "
