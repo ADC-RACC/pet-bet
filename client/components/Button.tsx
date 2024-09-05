@@ -2,7 +2,7 @@ import React from 'react'
 
 interface Props {
   variant?: string
-  onClick: (event: React.MouseEvent) => void
+  onClick?: (event: React.MouseEvent) => void
   children: React.ReactNode
   textColor?: string
   border?: string
