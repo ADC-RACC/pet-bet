@@ -1,13 +1,5 @@
 //@vitest-environment jsdom
-import {
-  afterEach,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest'
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 
 import { Pet } from '@models/pets'
 import nock from 'nock'
