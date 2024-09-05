@@ -41,7 +41,7 @@ function PetProfile() {
               href="/owners-profile"
               className="text-blue-600 underline text-xl"
             >
-              Owner's profile
+              Owner&apos;s profile
             </a>
           </div>
         </div>
