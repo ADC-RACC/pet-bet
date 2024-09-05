@@ -15,7 +15,7 @@ const OwnerPage: React.FC = () => {
   if (error) {
     return <div>Error: {error.message}</div>
   }
-  if (!data) {
+  if (data?.length === 0) {
     return <div>No pets found for this owner.</div>
   }
 

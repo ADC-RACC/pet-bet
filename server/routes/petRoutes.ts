@@ -45,6 +45,28 @@ router.patch('/:id/votes', async (req, res) => {
   }
 })
 
+// Adding a pet
+router.post('/', async (req, res) => {
+  try {
+    const newPet = req.body
+    if (!newPet) {
+      res.sendStatus(400)
+      return
+    }
+    const result = await db.addPet(newPet)
+    res.json(result)
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message)
+    } else {
+      console.error('unknown error')
+    }
+    res.status(500).json({
+      error: `Something went wrong.`,
+    })
+  }
+})
+
 export default router
 
 // GET /api/v1/pets/leaderboard
