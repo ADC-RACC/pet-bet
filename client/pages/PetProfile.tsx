@@ -19,12 +19,12 @@ function PetProfile() {
         <p className="text-2xl mt-4 text-gray-700">
           Woofsies! The goodest pet you are looking for does not exist.
         </p>
-        <a
-          href="/"
+        <Link
+          to="/"
           className="mt-6 inline-block px-6 py-3 bg-blue-500 text-black rounded-full hover:bg-blue-600 transition"
         >
           Go back home
-        </a>
+        </Link>
       </div>
     )
   }
