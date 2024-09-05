@@ -1,7 +1,7 @@
 import { Leaderboard } from '@models/leaderboard'
 import db from '../connection'
 
-import { Pet, UpdatedData } from '@models/pets'
+import { Pet, PetData, UpdatedData } from '@models/pets'
 
 export async function getRandomPets(count: number): Promise<Pet[]> {
   const tips = await db('pets')
@@ -22,6 +22,18 @@ export async function updatePetById(updatedPet: UpdatedData, id: number) {
     .where({ id })
     .update({ wins: updatedPet.wins, losses: updatedPet.losses })
   return result
+}
+
+export async function addPet(newpet: PetData) {
+  const result = await db('pets').insert({
+    owner_id: newpet.ownerId,
+    name: newpet.name,
+    bio: newpet.bio,
+    wins: newpet.wins,
+    losses: newpet.losses,
+    img_url: newpet.imgUrl || '/images/Default.webp',
+  })
+  return result[0]
 }
 
 export async function getPetbyId(id: number) {
