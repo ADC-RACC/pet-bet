@@ -36,17 +36,12 @@ function Leaderboard() {
             subtitleColored="Even Win/Loss"
             color="text-yellow"
           />
-          <ul>
-            {leaderboard.winsAndLossesRatio.map((winLoss) => (
-              <li
-                key={winLoss.id}
-                className="border-solid border-border border-2 pt-3 pb-3 pl-3 rounded-sm"
-              >
-                <p className="font-bold text-xl">{winLoss.name}</p>
-                <p>{winLoss.ratio.toFixed(3)} good/evil ratio</p>
-              </li>
-            ))}
-          </ul>
+          <LeaderboardColumn
+            column="winsAndLossesRatio"
+            dataType="ratio"
+            description="win/loss"
+            data={leaderboard}
+          />
         </div>
         <div className="w-72">
           <PageSubTitle
@@ -54,17 +49,12 @@ function Leaderboard() {
             subtitleColored="Wins"
             color="text-green"
           />
-          <ul>
-            {leaderboard.wins.map((wins) => (
-              <li
-                key={wins.id}
-                className="border-solid border-border border-2 pt-3 pb-3 pl-3 rounded-sm"
-              >
-                <p className="font-bold text-xl">{wins.name}</p>
-                <p>{wins.wins} good points</p>
-              </li>
-            ))}
-          </ul>
+          <LeaderboardColumn
+            column="wins"
+            dataType="wins"
+            description="wins"
+            data={leaderboard}
+          />
         </div>
       </div>
     </>

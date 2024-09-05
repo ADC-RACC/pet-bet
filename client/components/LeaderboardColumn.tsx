@@ -20,7 +20,8 @@ export default function LeaderboardColumn({
         >
           <p className="font-bold text-xl">{item.name}</p>
           <p>
-            {item[dataType]} {description}
+            {dataType === 'ratio' ? item[dataType].toFixed(3) : item[dataType]}{' '}
+            {description}
           </p>
         </li>
       ))}
