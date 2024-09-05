@@ -2,9 +2,14 @@ import PageTitle from '@/components/PageTitle'
 import useAddPet from '@/hooks/use-add-pet'
 import { useState, FormEvent, ChangeEvent } from 'react'
 import { Button } from '@/components/Button'
+import { useAuth0 } from '@auth0/auth0-react'
+import { useNavigate } from 'react-router-dom'
 
 function AddPet() {
   const addNewPet = useAddPet()
+
+  const { user } = useAuth0()
+  const navigate = useNavigate()
 
   const initialFormState = {
     ownerId: '',
@@ -14,7 +19,7 @@ function AddPet() {
     losses: 0,
     imgUrl: '',
   }
-
+  // console.log(user)
   const [formState, setFormState] = useState(initialFormState)
 
   const handleChange = (
@@ -31,7 +36,8 @@ function AddPet() {
 
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault()
-    await addNewPet.mutate(formState)
+    await addNewPet.mutate({ ...formState, ownerId: `${user?.sub}` })
+    navigate(`/owners/${user?.sub}`)
   }
 
   const handleClear = () => {
