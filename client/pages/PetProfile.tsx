@@ -1,5 +1,5 @@
 import useProfile from '@/hooks/use-profile'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 function PetProfile() {
   const { id } = useParams()
@@ -13,7 +13,7 @@ function PetProfile() {
     return <p>Error!</p>
   }
   if (data === null) {
-    return 'PLACEHOLDER NULL ERROR'
+    return ''
   }
   return (
     <>
@@ -41,7 +41,7 @@ function PetProfile() {
               href="/owners-profile"
               className="text-blue-600 underline text-xl"
             >
-              Owner&apos;s profile
+              <Link> Owner&apos;s profile</Link>
             </a>
           </div>
         </div>
