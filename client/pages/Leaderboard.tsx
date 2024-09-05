@@ -5,7 +5,6 @@ import LeaderboardColumn from '@/components/LeaderboardColumn'
 
 function Leaderboard() {
   // TODO: add commas for large numbers e.g. 1,000,000
-  // TODO: switch case to use colors from tailwind config
   // TODO: media queries
   // TODO: overlap of borders
   const { data: leaderboard, isError, isPending } = useLeaderboard()
@@ -23,10 +22,9 @@ function Leaderboard() {
             color="text-red"
           />
           <LeaderboardColumn
-            column="losses"
+            column={leaderboard.losses}
             dataType="losses"
             description="losses"
-            data={leaderboard}
           />
         </div>
 
@@ -37,10 +35,9 @@ function Leaderboard() {
             color="text-yellow"
           />
           <LeaderboardColumn
-            column="winsAndLossesRatio"
+            column={leaderboard.winsAndLossesRatio}
             dataType="ratio"
             description="win/loss"
-            data={leaderboard}
           />
         </div>
         <div className="w-72">
@@ -50,10 +47,9 @@ function Leaderboard() {
             color="text-green"
           />
           <LeaderboardColumn
-            column="wins"
+            column={leaderboard.wins}
             dataType="wins"
             description="wins"
-            data={leaderboard}
           />
         </div>
       </div>

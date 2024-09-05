@@ -1,19 +1,23 @@
+import {
+  LeaderboardLoss,
+  LeaderboardRatio,
+  LeaderboardWin,
+} from '@models/leaderboard'
+
 interface Props {
-  data: object
-  column: string
-  dataType: string
+  column: LeaderboardRatio[] | LeaderboardWin[] | LeaderboardLoss[]
+  dataType: 'ratio' | 'wins' | 'losses'
   description: string
 }
 
 export default function LeaderboardColumn({
-  data,
   column,
   dataType,
   description,
 }: Props) {
   return (
     <ul>
-      {data[column].map((item) => (
+      {column.map((item) => (
         <li
           key={item.id}
           className="border-solid border-border border-2 pt-3 pb-3 pl-3 rounded-sm"
