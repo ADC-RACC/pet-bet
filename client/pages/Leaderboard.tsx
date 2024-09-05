@@ -4,8 +4,6 @@ import useLeaderboard from '@/hooks/use-leaderboard'
 import LeaderboardColumn from '@/components/LeaderboardColumn'
 
 function Leaderboard() {
-  // TODO: add commas for large numbers e.g. 1,000,000
-  // TODO: media queries
   const { data: leaderboard, isError, isPending } = useLeaderboard()
 
   if (isPending) return <p>Loading...</p>

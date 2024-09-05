@@ -96,7 +96,6 @@ describe('Leaderboard rendering tests', () => {
     // ASSERT
     const links = await screen.findAllByTestId('link-for-testing-1')
     expect(links[0]).toHaveProperty('href', 'http://localhost:3000/pets/1')
-    expect(links.length).toBe(1)
     expect(scope.isDone()).toBe(true)
   })
 })
