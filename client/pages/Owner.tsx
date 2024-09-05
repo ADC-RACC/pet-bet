@@ -24,7 +24,7 @@ const OwnerPage: React.FC = () => {
       <PageTitle title="Manager" />
       <ul>
         {data?.map((pet: PetData) => (
-          <li key={pet.ownerId}>
+          <li key={pet.name}>
             <PetCard pet={pet} />
           </li>
         ))}
