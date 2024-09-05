@@ -12,6 +12,9 @@ function PetProfile() {
     console.error(error.message)
     return <p>Error!</p>
   }
+  if (data === null) {
+    return 'PLACEHOLDER NULL ERROR'
+  }
   return (
     <>
       <div className="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-10">
