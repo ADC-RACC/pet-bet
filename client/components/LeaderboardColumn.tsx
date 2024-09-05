@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import {
   LeaderboardLoss,
   LeaderboardRatio,
@@ -18,16 +20,21 @@ export default function LeaderboardColumn({
   return (
     <ul>
       {column.map((item) => (
-        <li
+        <Link
+          data-testid={`link-for-testing-${item.id}`}
           key={item.id}
-          className="-my-0.5 border-solid border-border border-2 pt-3 pb-3 pl-3 rounded-sm"
+          to={`/pets/${item.id}`}
         >
-          <p className="font-bold m-0 text-xl">{item.name}</p>
-          <p>
-            {dataType === 'ratio' ? item[dataType].toFixed(3) : item[dataType]}{' '}
-            {description}
-          </p>
-        </li>
+          <li className="-my-0.5 border-solid border-border border-2 pt-3 pb-3 pl-3 rounded-sm">
+            <p className="font-bold m-0 text-xl">{item.name}</p>
+            <p>
+              {dataType === 'ratio'
+                ? item[dataType].toFixed(3)
+                : item[dataType]}{' '}
+              {description}
+            </p>
+          </li>
+        </Link>
       ))}
     </ul>
   )
