@@ -13,7 +13,7 @@ function PetProfile() {
     return <p>Error!</p>
   }
   if (data === null) {
-    return ''
+    return 'Hello'
   }
   return (
     <>
@@ -33,16 +33,16 @@ function PetProfile() {
               <span className="font-semibold">Win/Loss Ratio: </span>
               {(data.wins / data.losses).toFixed(3)}
             </p>
-            <p>{data.wins.toLocaleString()} wins</p>
-            <p>{data.losses.toLocaleString()} losses</p>
+            <p>{data.wins} wins</p>
+            <p>{data.losses} losses</p>
           </div>
           <div>
-            <a
-              href="/owners-profile"
+            <Link
               className="text-blue-600 underline text-xl"
+              to={`/owners/${data.ownerId}`}
             >
-              <Link> Owner&apos;s profile</Link>
-            </a>
+              Owner Profile
+            </Link>
           </div>
         </div>
       </div>
