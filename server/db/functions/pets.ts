@@ -36,6 +36,7 @@ export async function getPetbyId(id: number) {
       'losses',
       'img_url as imgUrl',
     )
+    .first()
   return result
 }
 

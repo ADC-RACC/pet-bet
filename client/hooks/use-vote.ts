@@ -14,7 +14,7 @@ export default function useUpdatePetVotes() {
     mutationFn: ({ votes, id }: Votes) => addVotes(votes, id),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['vote'],
+        queryKey: ['pets'],
       })
     },
   })

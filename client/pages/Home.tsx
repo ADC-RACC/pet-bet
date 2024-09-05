@@ -18,7 +18,7 @@ function Home() {
   }
 
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ['vote'],
+    queryKey: ['pets', 'random', 2],
     queryFn: () => getRandomPet(2),
   })
 
