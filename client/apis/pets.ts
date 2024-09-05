@@ -10,12 +10,12 @@ export async function getRandomPet(count: number) {
   return res.body as Pet[]
 }
 
-export async function getPetById(id: number) {
-  const res = await request.get(`/api/v1/pets/${id}/votes`)
-  return res.body as Pet
-}
-
 export async function addVotes(votes: UpdatedData, id: number) {
   const response = await request.patch(`/api/v1/pets/${id}/votes`).send(votes)
   return response
+}
+
+export async function getPetById(id: number) {
+  const response = await request.get(`/api/v1/pets/${id}`)
+  return response.body as Pet
 }
