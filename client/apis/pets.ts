@@ -1,6 +1,6 @@
 import request from 'superagent'
 
-import { Pet, UpdatedData } from '@models/pets'
+import { Pet, PetData, UpdatedData } from '@models/pets'
 
 import { Leaderboard } from '@models/leaderboard'
 
@@ -26,4 +26,8 @@ export async function getPetById(id: number) {
 export async function addVotes(votes: UpdatedData, id: number) {
   const response = await request.patch(`/api/v1/pets/${id}/votes`).send(votes)
   return response
+}
+
+export async function addPet(data: PetData) {
+  await request.post(`/api/v1/pets`).send(data)
 }
