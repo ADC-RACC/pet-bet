@@ -57,7 +57,11 @@ function AddPet() {
           name="bio"
           onChange={handleChange}
           value={formState.bio}
-          placeholder={`Tell us a little bit about ${formState.name}`}
+          placeholder={
+            formState.name === ''
+              ? 'Tell us a little bit about your pet'
+              : `Tell us a little bit about ${formState.name}`
+          }
           rows={4}
           className="border-solid border-2 border-black rounded-sm"
         ></textarea>
