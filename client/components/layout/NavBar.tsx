@@ -87,6 +87,9 @@ export default function Navigation() {
               </Button>
             </IfNotAuthenticated>
             <IfAuthenticated>
+              <Link to="/add-pet">
+                <Button variant="none">+ Add Pet</Button>
+              </Link>
               <Button variant="none" onClick={handleSignOut}>
                 Sign Out
               </Button>
