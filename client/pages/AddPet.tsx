@@ -16,7 +16,9 @@ function AddPet() {
   })
 
   const handleChange = (
-    evt: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    evt: ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
     const { name, value } = evt.target
     setFormState((prev) => ({
@@ -33,23 +35,25 @@ function AddPet() {
   return (
     <>
       <>
-        <PageTitle title="Create Character" />
+        <PageTitle title="Add A Pet" />
         <form onSubmit={handleSubmit}>
           <label htmlFor="name">Name</label>
           <input
             type="text"
             id="name"
+            name="name"
             onChange={handleChange}
             value={formState.name}
           ></input>
           <label htmlFor="bio">Bio</label>
-          <input
-            type="text"
+          <textarea
             id="bio"
+            name="bio"
             onChange={handleChange}
             value={formState.bio}
             placeholder={`Tell us a little bit about ${formState.name}`}
-          ></input>
+            rows={4}
+          ></textarea>
           <Button>Submit</Button>
         </form>
       </>
