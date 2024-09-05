@@ -97,7 +97,7 @@ describe('update wins and losses', () => {
       .patch('/api/v1/pets/2/votes')
       .send({ wins: 100, losses: 100 })
     expect(patchRes.statusCode).toBe(204)
-    const getRes = await request(server).get('/api/v1/pets/2/votes')
+    const getRes = await request(server).get('/api/v1/pets/2')
     expect(getRes.body).toStrictEqual([
       {
         id: 2,
@@ -144,10 +144,6 @@ describe('it should return leaderboard data', () => {
         ]),
       }),
     )
-  })
-  it('should be 404 when wrong route', async () => {
-    const getRes = await request(server).get('/api/v1/pets/not-leaderboard')
-    expect(getRes.statusCode).toBe(404)
   })
   it('should be 500 when wrong route', async () => {
     vi.spyOn(db, 'getLeaderBoardData').mockImplementation(() => {

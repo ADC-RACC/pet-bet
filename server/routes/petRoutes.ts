@@ -21,24 +21,6 @@ router.get('/random', async (req, res) => {
   }
 })
 
-// Getting Pet by Id
-router.get('/:id/votes', async (req, res) => {
-  try {
-    const id = Number(req.params.id)
-    const pets = await db.getPetbyId(id)
-    res.json(pets)
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message)
-    } else {
-      console.error('unknown error')
-    }
-    res.status(500).json({
-      error: `Something went wrong.`,
-    })
-  }
-})
-
 //Updating wins and losses
 router.patch('/:id/votes', async (req, res) => {
   try {
@@ -70,6 +52,24 @@ router.get('/leaderboard', async (req, res) => {
   try {
     const leaderBoardData = await db.getLeaderBoardData()
     res.json(leaderBoardData)
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message)
+    } else {
+      console.error('unknown error')
+    }
+    res.status(500).json({
+      error: `Something went wrong.`,
+    })
+  }
+})
+
+// Getting Pet by Id
+router.get('/:id', async (req, res) => {
+  try {
+    const id = Number(req.params.id)
+    const pets = await db.getPetbyId(id)
+    res.json(pets)
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.message)
