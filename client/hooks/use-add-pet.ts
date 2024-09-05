@@ -6,7 +6,7 @@ export default function useAddPet() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (data: PetData) => addPet(),
+    mutationFn: (data: PetData) => addPet(data),
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['pet'] })
     },
