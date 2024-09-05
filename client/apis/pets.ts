@@ -18,11 +18,6 @@ export async function getLeaderboard() {
   return res.body as Leaderboard
 }
 
-export async function getPetById(id: number) {
-  const res = await request.get(`/api/v1/pets/${id}/votes`)
-  return res.body as Pet
-}
-
 export async function addVotes(votes: UpdatedData, id: number) {
   const response = await request.patch(`/api/v1/pets/${id}/votes`).send(votes)
   return response
@@ -30,4 +25,10 @@ export async function addVotes(votes: UpdatedData, id: number) {
 
 export async function addPet(data: PetData) {
   await request.post(`/api/v1/pets`).send(data)
+  return
+}
+
+export async function getPetById(id: number) {
+  const response = await request.get(`/api/v1/pets/${id}`)
+  return response.body as Pet
 }
