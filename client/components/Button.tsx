@@ -48,7 +48,7 @@ export function Button({
   let borderColor = ''
   switch (border) {
     case 'border':
-      borderColor = 'border-solid border-border border-2 border-black'
+      borderColor = 'border-solid border-2 border-black'
       break
     default:
       borderColor = ''

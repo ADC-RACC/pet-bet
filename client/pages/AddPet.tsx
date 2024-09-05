@@ -49,6 +49,7 @@ function AddPet() {
           name="name"
           onChange={handleChange}
           value={formState.name}
+          className="border-solid border-2 border-black rounded-sm"
         ></input>
         <label htmlFor="bio">Bio</label>
         <textarea
@@ -58,6 +59,7 @@ function AddPet() {
           value={formState.bio}
           placeholder={`Tell us a little bit about ${formState.name}`}
           rows={4}
+          className="border-solid border-2 border-black rounded-sm"
         ></textarea>
         <Button onClick={handleSubmit}>Add</Button>
         <Button
