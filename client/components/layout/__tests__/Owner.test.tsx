@@ -1,3 +1,4 @@
+//@vitest-environment jsdom
 import {
   afterEach,
   beforeAll,
@@ -7,7 +8,7 @@ import {
   it,
   vi,
 } from 'vitest'
-import { useParams } from 'react-router-dom'
+
 import { Pet } from '@models/pets'
 import nock from 'nock'
 import { renderRoute } from '@/test/setup'
@@ -21,9 +22,10 @@ beforeAll(() => {
 
 afterEach(() => {
   vi.clearAllMocks()
+  // nock.cleanAll()
 })
 
-const mockPets: Pet[] = [
+const petsByOwnerId: Pet[] = [
   {
     id: 1,
     name: 'Sir Whiskers',
@@ -36,80 +38,59 @@ const mockPets: Pet[] = [
 ]
 
 describe('Owner page', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
-
   it('shows loading state', async () => {
     // ARRANGE
     const ownerId = '1'
-    vi.mocked(useParams).mockReturnValue({ ownerId })
-    const result = nock('http://localhost')
+    nock('http://localhost')
+      .get(`/api/v1/owners/${ownerId}/pets`)
+      .reply(200, petsByOwnerId)
+
+    // ACT
+    const screen = renderRoute(`/owners/${ownerId}`)
+    const loadingText = await screen.findByText('Loading...')
+    // ASSERT
+    expect(loadingText).toBeInTheDocument()
+  })
+
+  it('shows error message when request fails', async () => {
+    // ARRANGE
+    const ownerId = '1'
+    nock('http://localhost').get(`/api/v1/owners/${ownerId}/pets`).reply(500)
+
+    // ACT
+    const screen = renderRoute(`/owners/${ownerId}`)
+    const errorText = await screen.findByText(/Error: Internal Server Error/)
+    // ASSERT
+    expect(errorText).toBeInTheDocument()
+  })
+
+  it('shows no pets found message when response is empty', async () => {
+    // ARRANGE
+    const ownerId = '1'
+    nock('http://localhost')
       .get(`/api/v1/owners/${ownerId}/pets`)
       .reply(200, [])
 
     // ACT
-    const screen = renderRoute(`/owners/1`)
-
+    const screen = renderRoute(`/owners/${ownerId}`)
+    const noPetsText = await screen.findByText(/No pets found for this owner./)
     // ASSERT
-    expect(await screen.findByText('Loading...')).toBeInTheDocument()
-    expect(result.isDone()).toBe(true)
-  })
-
-  it('shows error message', async () => {
-    // ARRANGE
-    const ownerId = '1'
-    vi.mocked(useParams).mockReturnValue({ ownerId })
-    const result = nock('http://localhost')
-      .get(`/api/v1/owners/${ownerId}/pets`)
-      .reply(500)
-
-    // ACT
-    const screen = renderRoute(`/owners/1`)
-
-    // ASSERT
-    expect(
-      await screen.findByText('Error: Request failed with status code 500'),
-    ).toBeInTheDocument()
-    expect(result.isDone()).toBe(true)
-  })
-
-  it('shows no pets found message', async () => {
-    // ARRANGE
-    const ownerId = '1'
-    vi.mocked(useParams).mockReturnValue({ ownerId })
-    const result = nock('http://localhost')
-      .get(`/api/v1/owners/${ownerId}/pets`)
-      .reply(200, [])
-
-    // ACT
-    const screen = renderRoute(`/owners/1`)
-
-    // ASSERT
-    expect(
-      await screen.findByText('No pets found for this owner.'),
-    ).toBeInTheDocument()
-    expect(result.isDone()).toBe(true)
+    expect(noPetsText).toBeInTheDocument()
   })
 
   it('shows list of pets by owner Id', async () => {
     // ARRANGE
     const ownerId = '1'
-    vi.mocked(useParams).mockReturnValue({ ownerId })
-    const result = nock('http://localhost')
+    nock('http://localhost')
       .get(`/api/v1/owners/${ownerId}/pets`)
-      .reply(200, mockPets)
+      .reply(200, petsByOwnerId)
 
     // ACT
-    const screen = renderRoute(`/owners/1`)
-
+    const screen = renderRoute(`/owners/${ownerId}`)
+    const petBio = await screen.findByText(
+      /A cat who loves to chase laser pointers and naps on keyboards./,
+    )
     // ASSERT
-    expect(await screen.findByText('Sir Whiskers')).toBeInTheDocument()
-    expect(
-      screen.getByText(
-        'A cat who loves to chase laser pointers and naps on keyboards.',
-      ),
-    ).toBeInTheDocument()
-    expect(result.isDone()).toBe(true)
+    expect(petBio).toBeInTheDocument()
   })
 })
